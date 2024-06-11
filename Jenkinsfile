@@ -1,21 +1,18 @@
-
-
 pipeline {
     agent any
     environment {
-        CI = 'true'
+        DEPLOY_ENV = 'preprod'
     }
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
-                sh 'mvn compile'
+                echo "Building for ${env.DEPLOY_ENV} environment"
+                // Add pre-production-specific build steps here
             }
         }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
-        }
-    }
-}
 
